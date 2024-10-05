@@ -33,7 +33,7 @@ final class ParserTests: XCTestCase {
   }
 
   func testParseBoldTextOnly() {
-    let input = "\\textbf{Hello, World!}"
+    let input = "#textbf{Hello, World!}"
     let components = Parser.parse(input)
     XCTAssertEqual(components.count, 1)
     XCTAssertEqual(components[0].text, "Hello, World!")
@@ -41,7 +41,7 @@ final class ParserTests: XCTestCase {
   }
 
   func testParseTextAndBoldText() {
-    let input = "Before \\textbf{Hello, World!} After"
+    let input = "Before #textbf{Hello, World!} After"
     let components = Parser.parse(input)
     XCTAssertEqual(components.count, 3)
     XCTAssertEqual(components[0].text + components[1].text + components[2].text, "Before Hello, World! After")

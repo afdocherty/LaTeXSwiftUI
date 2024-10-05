@@ -122,7 +122,7 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
     var leftTerminator: String {
       switch self {
       case .text: return ""
-      case .boldText: return "\\textbf{"
+      case .boldText: return "#textbf{"
       case .inlineEquation: return "$"
       case .texEquation: return "$$"
       case .blockEquation: return "\\["
