@@ -228,10 +228,20 @@ extension Renderer {
       }
     }
     else if blockRenderingMode == .alwaysInline {
-      text = Text(component.originalTextTrimmingNewlines)
+        switch component.type {
+        case .boldText:
+            text = Text(component.originalTextTrimmingNewlines).bold()
+        default:
+            text = Text(component.originalTextTrimmingNewlines)
+        }
     }
     else {
-      text = Text(component.originalText)
+        switch component.type {
+        case .boldText:
+            text = Text(component.originalText).bold()
+        default:
+            text = Text(component.originalText)
+        }
     }
     
     return text

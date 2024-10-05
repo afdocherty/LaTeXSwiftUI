@@ -84,6 +84,9 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
     
     /// A text component.
     case text
+      
+    /// A bold text component.
+    case boldText
     
     /// An inline equation component.
     ///
@@ -119,6 +122,7 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
     var leftTerminator: String {
       switch self {
       case .text: return ""
+      case .boldText: return "\\textbf{"
       case .inlineEquation: return "$"
       case .texEquation: return "$$"
       case .blockEquation: return "\\["
@@ -131,6 +135,7 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
     var rightTerminator: String {
       switch self {
       case .text: return ""
+      case .boldText: return "}"
       case .inlineEquation: return "$"
       case .texEquation: return "$$"
       case .blockEquation: return "\\]"
@@ -142,14 +147,14 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
     /// Whether or not this component is inline.
     var inline: Bool {
       switch self {
-      case .text, .inlineEquation: return true
+      case .text, .boldText, .inlineEquation: return true
       default: return false
       }
     }
     
-    /// True iff the component is not `text`.
+    /// True iff the component is not `text` or `boldText`.
     var isEquation: Bool {
-      return self != .text
+      return (self != .text) && (self != .boldText)
     }
   }
   
@@ -194,7 +199,7 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
   ///   - type: The component's type.
   ///   - svg: The rendered SVG (only applies to equations).
   init(text: String, type: ComponentType, svg: SVG? = nil) {
-    if type.isEquation {
+    if type.isEquation || type == .boldText {
       var text = text
       if text.hasPrefix(type.leftTerminator) {
         text = String(text[text.index(text.startIndex, offsetBy: type.leftTerminator.count)...])

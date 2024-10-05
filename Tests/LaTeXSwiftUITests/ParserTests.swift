@@ -31,6 +31,24 @@ final class ParserTests: XCTestCase {
     XCTAssertEqual(components.count, 1)
     XCTAssertEqual(components[0].text, input)
   }
+
+  func testParseBoldTextOnly() {
+    let input = "\\textbf{Hello, World!}"
+    let components = Parser.parse(input)
+    XCTAssertEqual(components.count, 1)
+    XCTAssertEqual(components[0].text, "Hello, World!")
+    assertComponent(components, 0, "Hello, World!", .boldText)
+  }
+
+  func testParseTextAndBoldText() {
+    let input = "Before \\textbf{Hello, World!} After"
+    let components = Parser.parse(input)
+    XCTAssertEqual(components.count, 3)
+    XCTAssertEqual(components[0].text + components[1].text + components[2].text, "Before Hello, World! After")
+    assertComponent(components, 0, "Before ", .text)
+    assertComponent(components, 1, "Hello, World!", .boldText)
+    assertComponent(components, 2, " After", .text)
+  }
   
   func testParseDollarOnly() {
     let input = "$\\TeX$"

@@ -39,6 +39,12 @@ internal struct Parser {
   
   // MARK: Private properties
   
+  /// A bold text component.
+  static let boldText = EquationComponent(
+    regex: #/\\textbf{\s*(.*?)\s*\}/#,
+    terminatingRegex: #/\}/#,
+    equation: .boldText)
+    
   /// An inline equation component.
   static let inline = EquationComponent(
     regex: #/\$(.*?)\$/#,
@@ -71,6 +77,7 @@ internal struct Parser {
   
   // Order matters
   static let allEquations: [EquationComponent] = [
+    boldText,
     inline,
     tex,
     block,
