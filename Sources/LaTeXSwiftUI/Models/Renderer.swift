@@ -230,7 +230,7 @@ extension Renderer {
     else if blockRenderingMode == .alwaysInline {
         switch component.type {
         case .boldText:
-            text = Text(component.originalTextTrimmingNewlines).bold()
+            text = Text(component.textTrimmingNewlines).bold()
         default:
             text = Text(component.originalTextTrimmingNewlines)
         }
@@ -238,7 +238,7 @@ extension Renderer {
     else {
         switch component.type {
         case .boldText:
-            text = Text(component.originalText).bold()
+            text = Text(component.text).bold()
         default:
             text = Text(component.originalText)
         }

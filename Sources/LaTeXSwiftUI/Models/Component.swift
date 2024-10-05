@@ -176,6 +176,11 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
   var originalTextTrimmingNewlines: String {
     originalText.trimmingCharacters(in: .newlines)
   }
+    
+  /// The component's text with newlines trimmed.
+  var textTrimmingNewlines: String {
+    text.trimmingCharacters(in: .newlines)
+  }
   
   /// The component's conversion options.
   var conversionOptions: ConversionOptions {
