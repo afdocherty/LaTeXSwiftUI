@@ -41,7 +41,7 @@ internal struct Parser {
   
   /// A bold text component.
   static let boldText = EquationComponent(
-    regex: #/\#textbf{\s*(.*?)\s*\}/#,
+    regex: #/\#bold{\s*(.*?)\s*\}/#,
     terminatingRegex: #/\}/#,
     equation: .boldText)
     
