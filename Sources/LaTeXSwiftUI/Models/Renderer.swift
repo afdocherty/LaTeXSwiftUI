@@ -231,6 +231,10 @@ extension Renderer {
         switch component.type {
         case .boldText:
             text = Text(component.textTrimmingNewlines).bold()
+        case .italicText:
+            text = Text(component.textTrimmingNewlines).italic()
+        case .underlineText:
+            text = Text(component.textTrimmingNewlines).underline()
         default:
             text = Text(component.originalTextTrimmingNewlines)
         }
@@ -239,6 +243,10 @@ extension Renderer {
         switch component.type {
         case .boldText:
             text = Text(component.text).bold()
+        case .italicText:
+            text = Text(component.text).italic()
+        case .underlineText:
+            text = Text(component.text).underline()
         default:
             text = Text(component.originalText)
         }

@@ -87,6 +87,12 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
       
     /// A bold text component.
     case boldText
+      
+    /// An italic text component.
+    case italicText
+      
+    /// An underline text component.
+    case underlineText
     
     /// An inline equation component.
     ///
@@ -123,6 +129,8 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
       switch self {
       case .text: return ""
       case .boldText: return "#bold{"
+      case .italicText: return "#italic{"
+      case .underlineText: return "#underline{"
       case .inlineEquation: return "$"
       case .texEquation: return "$$"
       case .blockEquation: return "\\["
@@ -136,6 +144,8 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
       switch self {
       case .text: return ""
       case .boldText: return "}"
+      case .italicText: return "}"
+      case .underlineText: return "}"
       case .inlineEquation: return "$"
       case .texEquation: return "$$"
       case .blockEquation: return "\\]"
@@ -147,14 +157,23 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
     /// Whether or not this component is inline.
     var inline: Bool {
       switch self {
-      case .text, .boldText, .inlineEquation: return true
+      case .text,
+              .boldText,
+              .italicText,
+              .underlineText,
+              .inlineEquation: return true
       default: return false
       }
     }
     
-    /// True iff the component is not `text` or `boldText`.
+    /// True iff the component type is `boldText`, `italicText`, or `underlineText`..
+    var isFormattedText: Bool {
+        return (self == .boldText) || (self == .italicText) || (self == .underlineText)
+    }
+    
+    /// True iff the component type is not `text` or formatted text.
     var isEquation: Bool {
-      return (self != .text) && (self != .boldText)
+        return (self != .text) && !self.isFormattedText
     }
   }
   
@@ -204,7 +223,7 @@ internal struct Component: CustomStringConvertible, Equatable, Hashable {
   ///   - type: The component's type.
   ///   - svg: The rendered SVG (only applies to equations).
   init(text: String, type: ComponentType, svg: SVG? = nil) {
-    if type.isEquation || type == .boldText {
+    if type.isEquation || type.isFormattedText {
       var text = text
       if text.hasPrefix(type.leftTerminator) {
         text = String(text[text.index(text.startIndex, offsetBy: type.leftTerminator.count)...])

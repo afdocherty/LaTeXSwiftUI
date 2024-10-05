@@ -45,6 +45,18 @@ internal struct Parser {
     terminatingRegex: #/\}/#,
     equation: .boldText)
     
+    /// An italic text component.
+    static let italicText = EquationComponent(
+      regex: #/\#italic{\s*(.*?)\s*\}/#,
+      terminatingRegex: #/\}/#,
+      equation: .italicText)
+    
+    /// An underline text component.
+    static let underlineText = EquationComponent(
+      regex: #/\#underline{\s*(.*?)\s*\}/#,
+      terminatingRegex: #/\}/#,
+      equation: .underlineText)
+    
   /// An inline equation component.
   static let inline = EquationComponent(
     regex: #/\$(.*?)\$/#,
@@ -78,6 +90,8 @@ internal struct Parser {
   // Order matters
   static let allEquations: [EquationComponent] = [
     boldText,
+    italicText,
+    underlineText,
     inline,
     tex,
     block,

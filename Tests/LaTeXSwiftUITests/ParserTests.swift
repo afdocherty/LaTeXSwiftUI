@@ -49,6 +49,60 @@ final class ParserTests: XCTestCase {
     assertComponent(components, 1, "Hello, World!", .boldText)
     assertComponent(components, 2, " After", .text)
   }
+    
+    func testParseitalicTextOnly() {
+      let input = "#italic{Hello, World!}"
+      let components = Parser.parse(input)
+      XCTAssertEqual(components.count, 1)
+      XCTAssertEqual(components[0].text, "Hello, World!")
+      assertComponent(components, 0, "Hello, World!", .italicText)
+    }
+
+    func testParseTextAndItalicText() {
+      let input = "Before #italic{Hello, World!} After"
+      let components = Parser.parse(input)
+      XCTAssertEqual(components.count, 3)
+      XCTAssertEqual(components[0].text + components[1].text + components[2].text, "Before Hello, World! After")
+      assertComponent(components, 0, "Before ", .text)
+      assertComponent(components, 1, "Hello, World!", .italicText)
+      assertComponent(components, 2, " After", .text)
+    }
+    
+    func testParseUnderlineTextOnly() {
+      let input = "#underline{Hello, World!}"
+      let components = Parser.parse(input)
+      XCTAssertEqual(components.count, 1)
+      XCTAssertEqual(components[0].text, "Hello, World!")
+      assertComponent(components, 0, "Hello, World!", .underlineText)
+    }
+
+    func testParseTextAndUnderlineText() {
+      let input = "Before #underline{Hello, World!} After"
+      let components = Parser.parse(input)
+      XCTAssertEqual(components.count, 3)
+      XCTAssertEqual(components[0].text + components[1].text + components[2].text, "Before Hello, World! After")
+      assertComponent(components, 0, "Before ", .text)
+      assertComponent(components, 1, "Hello, World!", .underlineText)
+      assertComponent(components, 2, " After", .text)
+    }
+    
+    func testParseTextWithBolditalicUnderline() {
+      let input = "Bold #bold{Hello, World!} Italic #italic{Hello, World!} Underline #underline{Hello, World!}"
+      let components = Parser.parse(input)
+      XCTAssertEqual(components.count, 6)
+      XCTAssertEqual(components[0].text
+                     + components[1].text
+                     + components[2].text
+                     + components[3].text
+                     + components[4].text
+                     + components[5].text, "Bold Hello, World! Italic Hello, World! Underline Hello, World!")
+      assertComponent(components, 0, "Bold ", .text)
+      assertComponent(components, 1, "Hello, World!", .boldText)
+      assertComponent(components, 2, " Italic ", .text)
+      assertComponent(components, 3, "Hello, World!", .italicText)
+      assertComponent(components, 4, " Underline ", .text)
+      assertComponent(components, 5, "Hello, World!", .underlineText)
+    }
   
   func testParseDollarOnly() {
     let input = "$\\TeX$"
